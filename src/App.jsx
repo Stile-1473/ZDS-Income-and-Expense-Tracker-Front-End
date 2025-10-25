@@ -1,4 +1,4 @@
-import {BrowserRouter,Route, Routes} from "react-router-dom";
+import {BrowserRouter,Route, Routes, Navigate} from "react-router-dom";
 import Login from "./pages/Login.jsx";
 import Expense from "./pages/Expense.jsx";
 import Income from "./pages/Income.jsx";
@@ -19,6 +19,7 @@ const App = () => {
 
     <BrowserRouter>
         <Routes>
+            <Route path="/" element={<Navigate to="/signup" replace />} />
             <Route path="/dashboard" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/expense" element={<Expense />} />
