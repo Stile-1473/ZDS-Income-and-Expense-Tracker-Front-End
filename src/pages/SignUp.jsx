@@ -14,8 +14,10 @@ const Signup = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         setIsLoading(true);
         let tempErrors = {};
         if (!fullname) tempErrors.fullname = "Full name is required";
@@ -40,23 +42,39 @@ const Signup = () => {
            // Simulate API call for signup
 
             try {
+
+
+
+
+
                const response = await axiosConfig.post(API_ENDPOINTS.REGISTER,{
                     fullname,
                     email,
-                    password
-                })
+                    password,
+
+
+               })
 
                 if(response.status === 201){
                     toast.success("Registration successful! Please login.");
                     navigate("/login");
                 }
+
+                setIsLoading(false);
+
             }catch(err) {
                     console.error("Something went wrong during registration:", err);
-                   setErrors(err.message)
+                    if (err.response && err.response.data && err.response.data.message) {
+                        toast.error(err.response.data.message);
+                    } else {
+                        toast.error("Registration failed. Please try again.");
+                    }
+                    setIsLoading(false);
             }
 
 
 
+            setIsLoading(false);
 
         }
     };
@@ -75,6 +93,7 @@ const Signup = () => {
                     Sign up to start tracking your income and expenses with ZDS
                 </p>
 
+        
 
                 <Input
                     label="Full Name"
@@ -116,7 +135,10 @@ const Signup = () => {
                     disabled={isLoading}
                     className="w-full bg-gray-900/80 hover:bg-gray-900/90 text-white py-3 rounded-lg font-semibold mt-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {isLoading ? "Signing Up..." : "Sign Up"}
+                    {isLoading ? "Signing Up..."
+
+
+                        : "Sign Up"}
                 </button>
 
                 <p className="text-center text-gray-900/70 mt-4">

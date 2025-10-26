@@ -22,7 +22,7 @@ AxiosConfig.interceptors.request.use(
 
 
   const tokenshouldNotBePassed = excludeEndpoints.some(
-      endpoint => { config.url?.includes(endpoint)}
+      endpoint => { return  config.url?.includes(endpoint)}
   );
 
     if (!tokenshouldNotBePassed) {

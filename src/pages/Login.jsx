@@ -1,26 +1,36 @@
-// Login.js
-import React, { useState } from "react";
+// Login
+import React, {useContext, useState} from "react";
 import Input from "../components/Input.jsx";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
 import { validateEmail } from "../utils/validation.js";
+import axiosConfig from "../utils/AxiosConfig.jsx";
+import {API_ENDPOINTS} from "../utils/apiEndpoints.js";
+import {AppContext, AppContextProvider} from "../context/AppContext.jsx";
+import toast from "react-hot-toast";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const {setUser} = useContext(AppContext);
+
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit =  async (e) => {
         e.preventDefault();
         setIsLoading(true);
         let tempErrors = {};
+
         if (!email) {
             tempErrors.email = "Email is required";
         } else if (!validateEmail(email)) {
             tempErrors.email = "Email is not valid";
+            setIsLoading(false);
+
+
         }
         if (!password) tempErrors.password = "Password is required";
 
@@ -28,7 +38,37 @@ const Login = () => {
             setErrors(tempErrors);
             setIsLoading(false);
         } else {
-            //api
+            try {
+
+               const response = await  axiosConfig.post(API_ENDPOINTS.LOGIN,{
+                    email,
+                    password
+                })
+                setIsLoading(false);
+
+                const {token,user} = response.data;
+
+               if (token){
+                   localStorage.setItem("token", token);
+                   setUser(user);
+                   navigate("/dashboard")
+               }
+
+                console.log(response);
+
+            }catch (error) {
+                setIsLoading(false);
+
+                if(error.response && error.response.data.message ){
+                    toast.error(error.response.data.message);
+
+                }else {
+                    console.error("something went wrong", error);
+                    toast.error("Something went wrong");
+                }
+
+
+            }
 
         }
     };

@@ -1,6 +1,6 @@
 import {createContext, useState} from "react";
 
-const AppContext = createContext();
+ export const AppContext = createContext();
 
 export const AppContextProvider = ({children}) => {
 
@@ -9,14 +9,13 @@ export const AppContextProvider = ({children}) => {
     const contextValue = {
         //global state and functions here
 
-        user
+        user,
+        setUser,
     };
 
 
   return (
-
-
-        <AppContext.Provider value={{contextValue}}>
+        <AppContext.Provider value={contextValue}>
             {children}
         </AppContext.Provider>
   )
