@@ -7,7 +7,8 @@ const AxiosConfig = axios.create({
     headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
-    }
+    },
+    timeout: 10000 // 10 second timeout
 })
 
 
@@ -43,21 +44,18 @@ AxiosConfig.interceptors.request.use(
 
 
 
-//response intercepro
+//response interceptor
 AxiosConfig.interceptors.response.use((response) => {
-
-
-
     return response;
 },(error) => {
     if (error.response && error.response.status === 401) {
         window.location.href = "/login";
     }else if (error.response && error.response.status === 500) {
-
-        console.error("Server Error....Pliz Try Again Later");
-
-    }else if(error.code === "ECONNABORTED"){
-        console.error("Request timeout ..PLIZ TRY AGAIN LATER")
+        console.error("Server Error....Please Try Again Later");
+    }else if(error.code === "ECONNABORTED" || error.code === "ECONNRESET" || error.message.includes("timeout")) {
+        console.error("Request timeout... Please try again later");
+    }else if (!error.response) {
+        console.error("Network error... Please check your connection");
     }
 
     return Promise.reject(error);
