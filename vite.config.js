@@ -11,8 +11,7 @@ export default defineConfig({
       '/api': {
         target: 'https://zds-eldz.onrender.com',
         changeOrigin: true,
-        secure: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api')
+        secure: true
       }
     }
   }
