@@ -19,7 +19,6 @@ const Input = ({
                }) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === "password";
-
     return (
         <div className="flex flex-col w-full mb-5 relative">
             {label && (
@@ -27,6 +26,7 @@ const Input = ({
                     {label}
                 </label>
             )}
+
             <div className="relative">
                 {/* Left Icon */}
                 {iconMap[label.toLowerCase()] && (

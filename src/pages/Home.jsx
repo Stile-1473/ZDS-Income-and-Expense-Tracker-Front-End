@@ -1,6 +1,10 @@
- const Home = () => {
+import Dasboard from "../components/Dasboard.jsx";
+
+const Home = () => {
     return (
-        <>Home</>
+        <>
+        <Dasboard/>
+        </>
     )
 }
 
