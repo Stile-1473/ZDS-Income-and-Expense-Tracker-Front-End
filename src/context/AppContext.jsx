@@ -6,11 +6,16 @@ export const AppContextProvider = ({children}) => {
 
         const [user, setUser] = useState(null);
 
+        const clearUserInfo = () => {
+
+            setUser(null);
+        }
     const contextValue = {
         //global state and functions here
 
         user,
         setUser,
+        clearUserInfo,
     };
 
 
