@@ -1,6 +1,12 @@
+import Dasboard from "../components/Dasboard.jsx";
+
 const Income = () => {
     return (
-        <>Income</>
+
+        <Dasboard  activeMenu="Income">
+            This is the income
+
+        </Dasboard>
     )
 }
 

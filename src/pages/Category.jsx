@@ -1,6 +1,12 @@
- const Category = () => {
+import Dasboard from "../components/Dasboard.jsx";
+
+const Category = () => {
     return (
-        <>Category</>
+
+        <Dasboard  activeMenu="Category">
+            This is the catergory section
+
+        </Dasboard>
     )
 }
 

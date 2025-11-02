@@ -1,6 +1,12 @@
+import Dasboard from "../components/Dasboard.jsx";
+
 const Filter = () => {
     return (
-        <>Filter</>
+
+        <Dasboard  activeMenu="Search">
+         search your content
+
+        </Dasboard>
     )
 }
 

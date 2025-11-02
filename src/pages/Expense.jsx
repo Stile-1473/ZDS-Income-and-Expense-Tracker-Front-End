@@ -1,6 +1,12 @@
- const Expense = () => {
+import Dasboard from "../components/Dasboard.jsx";
+
+const Expense = () => {
     return (
-        <>Expense</>
+
+        <Dasboard  activeMenu="Expense">
+            This is the expense section
+
+        </Dasboard>
     )
 }
 

@@ -1,13 +1,9 @@
 import NavaBar from "./NavaBar.jsx";
 import {AppContext} from "../context/AppContext.jsx";
-import {useContext} from "react";
 import SideBar from "./SideBar.jsx";
 
-const Dasboard = () => {
+const Dasboard = ({children}) => {
 
-    // Grap user data
-
-    const {user} = useContext(AppContext)
 
    
 
@@ -15,10 +11,9 @@ const Dasboard = () => {
     return (
         <>
 
-        <NavaBar/>
+        <NavaBar />
 
             {/*layout style*/}
-            {user && (
                 <div className="flex">
                      <div className="max-[1080px]:hidden">
 
@@ -28,10 +23,10 @@ const Dasboard = () => {
                          
                      </div>
 
-                    <div className="grow mx-5">Right side bank</div>
+                    <div className="grow mx-5">{children}</div>
 
                 </div>
-            )}
+
         </>
     )
 }

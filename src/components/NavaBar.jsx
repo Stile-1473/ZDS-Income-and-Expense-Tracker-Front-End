@@ -2,6 +2,7 @@ import {useContext, useRef, useState} from "react";
 import {AppContext} from "../context/AppContext.jsx";
 import {useNavigate} from "react-router-dom";
 import { LogOut, Menu, User, User2, X } from "lucide-react";
+import SideBar from "./SideBar.jsx";
 
 const NavaBar = () => {
    const [sideBarOpen,setSideBarOpen] = useState(false)
@@ -131,11 +132,14 @@ const NavaBar = () => {
 
                 {/*    mobile*/}
 
-                <span>
+                {sideBarOpen && (
+                    <div className="fixed left-0 right-0 bg-white lg:hidden border-r
+                    border-gray-200 z-30 top-[73px]">
 
-                    mobile
-                </span>
+<SideBar />
 
+                    </div>
+                )}
 
 
             </div>
