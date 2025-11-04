@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 
 const iconMap = {
+    
     fullname: <User className="w-5 h-5 text-gray-400" />,
     email: <Mail className="w-5 h-5 text-gray-400" />,
     password: <Lock className="w-5 h-5 text-gray-400" />,

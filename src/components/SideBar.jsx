@@ -30,15 +30,17 @@ const SideBar = () => {
                 <button
                     onClick={()=> navigate(item.path)}
                         key={`menu_${index}`}
-                    className={` w-full flex items-center
-                    bg-transparent hover:bg-blue-50 hover:shadow-lg
+                    className={` 
+                    w-full flex items-center
+                     hover:bg-blue-50 hover:shadow-lg
                      transition-all duration-200
-                     cursor-pointer
-                     font-semibold uppercase text-gray-600
+                     cursor-pointer text-gray-500
+                     font-semibold  capitalize text-gray-600
                       border border-gray-200 py-3 px-4
-                       rounded-xl mb-3 mt-3 gap-4 ${ location.pathname === item.path ? "bg-blue-600 text-white shadow-lg border-blue-600" : "hover:border-blue-300"}`}>
+                       rounded-xl mb-3 mt-3 gap-4 ${ location.pathname === item.path ? "bg-blue-50 text-gray-600" +
+                        " shadow-lg border-blue-600" : "hover:border-blue-300"}`}>
 
-                    <item.icon className={`text-xl ${location.pathname === item.path ? "text-white" : "text-blue-600"}`} />
+                    <item.icon className={`text-xl ${location.pathname === item.path ? "text-blue-600" : "text-blue-600"}`} />
 
                     {item.label}
 

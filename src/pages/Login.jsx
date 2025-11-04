@@ -50,7 +50,7 @@ const Login = () => {
 
                if (token){
                    localStorage.setItem("token", token);
-                   localStorage.setItem("user", JSON.stringify(user));
+                
                    setUser(user);
                    navigate("/dashboard")
                }

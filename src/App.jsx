@@ -7,16 +7,10 @@ import Category from "./pages/Category.jsx";
 import Filter from "./pages/Filter.jsx";
 import Home from "./pages/Home.jsx";
 import {Toaster} from "react-hot-toast";
-import {useContext} from "react";
-import {AppContext} from "./context/AppContext.jsx";
+
 
 const App = () => {
-  const {user, isLoading} = useContext(AppContext);
-
-  if (isLoading) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
-  }
-
+  
   return (
 
       <>
@@ -27,14 +21,14 @@ const App = () => {
 
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
-            <Route path="/dashboard" element={user ? <Home /> : <Navigate to="/login" replace />} />
-            <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" replace />} />
-            <Route path="/expense" element={user ? <Expense /> : <Navigate to="/login" replace />} />
-            <Route path="/income" element={user ? <Income /> : <Navigate to="/login" replace />} />
-            <Route path="/signup" element={!user ? <SignUp /> : <Navigate to="/dashboard" replace />} />
-            <Route path="/category" element={user ? <Category /> : <Navigate to="/login" replace />} />
-            <Route path="/filter" element={user ? <Filter /> : <Navigate to="/login" replace />} />
+            <Route path="/" element={ <Root /> } />
+            <Route path="/dashboard" element={ <Home /> } />
+            <Route path="/login" element={ <Login /> } />
+            <Route path="/expense" element={ <Expense /> } />
+            <Route path="/income" element={<Income /> } />
+            <Route path="/signup" element={ <SignUp />} />
+            <Route path="/category" element={ <Category /> }/>
+            <Route path="/filter" element={ <Filter /> } />
         </Routes>
     </BrowserRouter>
 
@@ -42,4 +36,15 @@ const App = () => {
 
   );
 };
+
+
+const Root = () =>{
+   const isAuthenticated = !!localStorage.getItem("token")
+
+    return isAuthenticated ? (
+        <Navigate to="/dashboard" />
+    ) : (
+        <Navigate to="/login" />
+    )
+}
 export default App;

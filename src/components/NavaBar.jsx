@@ -1,4 +1,4 @@
-import {useContext, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {AppContext} from "../context/AppContext.jsx";
 import {useNavigate} from "react-router-dom";
 import { LogOut, Menu, User, User2, X } from "lucide-react";
@@ -13,12 +13,34 @@ const NavaBar = () => {
 
   const handleLogout = () => {
 
-    localStorage.clear()
+
     setShowDropDown(false)
     clearUserInfo()
     navigate("/login")
 
   }
+
+  useEffect(() => {
+        const handleClickOutside = () =>{
+            if(dropdownRef.current && !dropdownRef.current.contains(event.target)){
+                setShowDropDown(false)
+
+            }
+
+
+        }
+
+      if(showDropDown){
+          document.addEventListener("mousedown" , handleClickOutside)
+      }
+
+      return () =>{
+          document.removeEventListener("mousedown" , handleClickOutside)
+
+      }
+
+
+    },[showDropDown])
 
     return (
         <>
