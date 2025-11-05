@@ -1,40 +1,34 @@
 import NavaBar from "./NavaBar.jsx";
-import {AppContext} from "../context/AppContext.jsx";
+import { AppContext } from "../context/AppContext.jsx";
 import SideBar from "./SideBar.jsx";
-import {useContext} from "react";
+import { useContext } from "react";
 
-const Dasboard = ({children}) => {
-
-
-   
-const {user} = useContext(AppContext)
+const Dashboard = ({ children }) => {
+    const { user } = useContext(AppContext);
 
     return (
         <>
-
-        <NavaBar />
+            <NavaBar />
 
             {user && (
                 <div className="flex">
-                    <div className="max-[1080px]:hidden">
-
-                        {/* sidebar */}
-
-
+                    {/* Desktop Sidebar */}
+                    <div className="hidden lg:block">
                         <SideBar />
-
                     </div>
 
-                    <div className="grow mx-5">{children}</div>
-
+                    {/* Content Area */}
+                    <div
+                        className="grow p-6 min-h-[calc(100vh-80px)]
+            bg-gray-50/60 rounded-tl-3xl
+            overflow-y-auto animate-page"
+                    >
+                        {children}
+                    </div>
                 </div>
-
             )}
-            {/*layout style*/}
-
-
         </>
-    )
-}
+    );
+};
 
- export default  Dasboard;
+export default Dashboard;

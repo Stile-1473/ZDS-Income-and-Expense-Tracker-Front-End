@@ -1,9 +1,7 @@
-// components/Input.jsx
 import React, { useState } from "react";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 
 const iconMap = {
-    
     fullname: <User className="w-5 h-5 text-gray-400" />,
     email: <Mail className="w-5 h-5 text-gray-400" />,
     password: <Lock className="w-5 h-5 text-gray-400" />,
@@ -20,10 +18,14 @@ const Input = ({
                }) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === "password";
+
     return (
         <div className="flex flex-col w-full mb-5 relative">
             {label && (
-                <label className="mb-2 text-gray-700 font-semibold" htmlFor={label}>
+                <label
+                    className="mb-2 text-gray-700 font-semibold"
+                    htmlFor={label}
+                >
                     {label}
                 </label>
             )}
@@ -41,9 +43,13 @@ const Input = ({
                     onChange={onChange}
                     placeholder={placeholder}
                     required={required}
-                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none transition-all duration-200
+                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none
+            transition-all duration-200 shadow-sm
+            bg-white/30 backdrop-blur-md
             ${iconMap[label.toLowerCase()] ? "pl-10" : ""}
-            ${error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"}
+            ${error
+                        ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                        : "border-gray-300 focus:ring-blue-300 focus:border-blue-500 hover:shadow-md hover:scale-[1.01]"} 
           `}
                 />
 
@@ -51,12 +57,13 @@ const Input = ({
                 {isPassword && (
                     <span
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-3 cursor-pointer text-gray-400"
+                        className="absolute right-3 top-3 cursor-pointer text-gray-500 hover:text-gray-700 transition-all"
                     >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </span>
                 )}
             </div>
+
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
     );
