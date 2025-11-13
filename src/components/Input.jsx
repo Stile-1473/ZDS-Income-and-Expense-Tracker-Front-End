@@ -63,7 +63,7 @@ const Input = ({
                         placeholder={placeholder}
                         required={required}
                         className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-200 shadow-sm
-                        bg-white/30 backdrop-blur-md
+                        bg-white
                         ${iconMap[label?.toLowerCase()] ? "pl-10" : ""}
                         ${error
                             ? "border-red-500 focus:ring-red-500 focus:border-red-500"
