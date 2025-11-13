@@ -59,8 +59,8 @@ const Login = () => {
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-200">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md p-8 rounded-3xl shadow-xl backdrop-blur-xl
-                bg-white/60 border border-white/50
+                className="w-full max-w-md p-8 rounded-3xl shadow-xl
+                bg-white border border-gray-300
                 animate-fadeSlide"
             >
                 <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
@@ -72,8 +72,8 @@ const Login = () => {
                         label="Email"
                         type="email"
                         value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
+                        onChange={(value) => {
+                            setEmail(value);
                             if (errors.email) setErrors({ ...errors, email: "" });
                         }}
                         placeholder="you@example.com"
@@ -85,8 +85,8 @@ const Login = () => {
                         label="Password"
                         type="password"
                         value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
+                        onChange={(value) => {
+                            setPassword(value);
                             if (errors.password) setErrors({ ...errors, password: "" });
                         }}
                         placeholder="Enter your password"

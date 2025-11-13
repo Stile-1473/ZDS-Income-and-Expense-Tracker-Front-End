@@ -43,7 +43,7 @@ const Input = ({
                 {isSelect ? (
                     <select
                         className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-blue-300
-                        bg-white/30 backdrop-blur-md transition-all duration-200 shadow-sm hover:shadow-md hover:scale-[1.01]"
+                        bg-white transition-all duration-200 shadow-sm hover:shadow-md hover:scale-[1.01]"
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
                     >
