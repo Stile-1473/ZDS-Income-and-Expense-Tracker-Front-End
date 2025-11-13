@@ -16,7 +16,7 @@ const Income = () => {
                     </h2>
 
                     {/* Add Income Button */}
-                    <button className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition-all shadow-md">
+                    <button className="flex items-center gap-2 bg-green-100 text-green-400 px-4 py-2 rounded-xl border border-green-400 transition-all shadow-md">
                         <Plus className="w-5 h-5" />
                         Add Income
                     </button>

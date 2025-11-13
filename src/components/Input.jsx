@@ -15,6 +15,8 @@ const Input = ({
                    type = "text",
                    required = true,
                    error = "",
+                   isSelect = false,
+                   options = []
                }) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === "password";
@@ -23,8 +25,8 @@ const Input = ({
         <div className="flex flex-col w-full mb-5 relative">
             {label && (
                 <label
-                    className="mb-2 text-gray-700 font-semibold"
                     htmlFor={label}
+                    className="mb-2 text-gray-700 font-semibold"
                 >
                     {label}
                 </label>
@@ -32,26 +34,43 @@ const Input = ({
 
             <div className="relative">
                 {/* Left Icon */}
-                {iconMap[label.toLowerCase()] && (
-                    <span className="absolute left-3 top-3">{iconMap[label.toLowerCase()]}</span>
+                {iconMap[label?.toLowerCase()] && (
+                    <span className="absolute left-3 top-3">
+                        {iconMap[label.toLowerCase()]}
+                    </span>
                 )}
 
-                <input
-                    id={label}
-                    type={isPassword && showPassword ? "text" : type}
-                    value={value}
-                    onChange={onChange}
-                    placeholder={placeholder}
-                    required={required}
-                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none
-            transition-all duration-200 shadow-sm
-            bg-white/30 backdrop-blur-md
-            ${iconMap[label.toLowerCase()] ? "pl-10" : ""}
-            ${error
-                        ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                        : "border-gray-300 focus:ring-blue-300 focus:border-blue-500 hover:shadow-md hover:scale-[1.01]"} 
-          `}
-                />
+                {isSelect ? (
+                    <select
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-blue-300
+                        bg-white/30 backdrop-blur-md transition-all duration-200 shadow-sm hover:shadow-md hover:scale-[1.01]"
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                    >
+                        <option value="">Select Category Type...</option>
+                        {options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
+                ) : (
+                    <input
+                        id={label}
+                        type={isPassword && showPassword ? "text" : type}
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        placeholder={placeholder}
+                        required={required}
+                        className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-200 shadow-sm
+                        bg-white/30 backdrop-blur-md
+                        ${iconMap[label?.toLowerCase()] ? "pl-10" : ""}
+                        ${error
+                            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                            : "border-gray-300 focus:ring-blue-300 focus:border-blue-500 hover:shadow-md hover:scale-[1.01]"
+                        }`}
+                    />
+                )}
 
                 {/* Password Toggle */}
                 {isPassword && (
@@ -59,8 +78,12 @@ const Input = ({
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-3 cursor-pointer text-gray-500 hover:text-gray-700 transition-all"
                     >
-            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-          </span>
+                        {showPassword ? (
+                            <EyeOff className="w-5 h-5" />
+                        ) : (
+                            <Eye className="w-5 h-5" />
+                        )}
+                    </span>
                 )}
             </div>
 

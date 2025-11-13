@@ -2,7 +2,12 @@ import Dashboard from "../components/Dasboard.jsx";
 import { useUser } from "../hooks/useUser.jsx";
 import { PlusSquare } from "lucide-react";
 import CategoryList from "../components/CategoryList.jsx";
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import axiosConfig from "../utils/AxiosConfig.jsx";
+import {API_ENDPOINTS} from "../utils/apiEndpoints.js";
+import toast from "react-hot-toast";
+import Modal from "../components/Modal.jsx";
+import AddCategoryForm from "../components/AddCategoryForm.jsx";
 
 const Category = () => {
     useUser();
@@ -10,8 +15,62 @@ const Category = () => {
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState([]);
     const [openAddCategoryModal, setAddCategoryModal] = useState(false);
+    const [openEditModal,setEditModal] = useState(false)
+    const [selectedCategory,setSelectedCategory]= useState(null)
 
-    const fetchCategories = async () => {};
+    const fetchCategories = async () => {
+            if(loading) return;
+
+
+            setLoading(true)
+
+        try{
+           const response = await axiosConfig.get(API_ENDPOINTS.GET_ALL_CATEGORIES)
+            if(response.status === 200){
+                console.log(response.data)
+                setCategoryData(response.data)
+            }
+        }catch (e){
+            console.error("Something went wrong while fetching categories data :", e)
+            toast.error("Something went wrong fetching categories " ,e.message)
+        }finally {
+            setLoading(false)
+        }
+
+    };
+
+
+    useEffect(()=>{
+
+        fetchCategories()
+
+
+    },[])
+
+    const handleAddCategory = async  (category)=>{
+        const {name,type,icon} = category;
+
+        if(!name.trim() && !type){
+            toast.error("Name & Type  are required for a category ")
+            return
+
+        }
+
+        try{
+            const response = await axiosConfig.post(API_ENDPOINTS.CREATE_CATEGORY,{name,type,icon})
+
+            if(response.status === 201) {
+                toast.success("Category has been created succesfully")
+                setAddCategoryModal(false)
+                fetchCategories()
+            }
+        }catch (e) {
+                toast.error(e.response?.data?.message || "Failed to create category")
+                console.log(e)
+        }
+
+
+    }
 
     return (
         <Dashboard activeMenu="Category">
@@ -44,28 +103,19 @@ const Category = () => {
                 </div>
 
                 {/* Category List */}
-                <CategoryList />
+                <CategoryList categories={categoryData} />
 
-                {/* Add Category Modal */}
-                {openAddCategoryModal && (
-                    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 animate-fadeScale">
-                        <div className="bg-white rounded-2xl p-6 w-[400px] shadow-2xl">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                                Add Category
-                            </h3>
+                    <Modal
+                        isOpen={openAddCategoryModal}
+                        onClose={()=>setAddCategoryModal(false)}
+                    title="Add Category"
+                    >
 
-                            {/* Fields here later */}
-                            <div className="flex justify-end mt-5">
-                                <button
-                                    onClick={() => setAddCategoryModal(false)}
-                                    className="text-gray-500 hover:text-gray-700"
-                                >
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                    {/*    form*/}
+
+                        <AddCategoryForm onAddCategory ={handleAddCategory}/>
+                    </Modal>
+
 
             </div>
         </Dashboard>
