@@ -1,64 +1,140 @@
 import { Edit2, Trash2, ListCollapse } from "lucide-react";
 
-const CategoryList = ({ categories, onEditCategory, onDeleteCategory }) => {
+const CategoryList = ({ categories, onEditCategory }) => {
     return (
-        <div className="bg-white shadow-md rounded-xl p-5 w-full">
-            <div className="flex items-center justify-between mb-4">
-                <h4 className="text-lg font-bold text-gray-700">Categories</h4>
+        <div className="card-elevated p-5 sm:p-7 w-full animate-slideUp rounded-xl bg-white shadow-sm border border-neutral-100">
+
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+                <div className="min-w-0">
+                    <h4 className="text-lg font-semibold text-neutral-900">Categories</h4>
+                    <p className="text-sm text-neutral-500 mt-1">{categories.length} total</p>
+                </div>
             </div>
 
+            {/* Empty State */}
             {categories.length === 0 ? (
-                <p className="text-gray-500 text-center py-6">No categories yet</p>
+                <div className="text-center py-12">
+                    <div className="inline-flex p-4 rounded-full bg-neutral-100 mb-3">
+                        <ListCollapse className="w-7 h-7 text-neutral-400" />
+                    </div>
+                    <p className="text-neutral-600 font-medium text-base">No categories yet</p>
+                    <p className="text-neutral-400 text-sm mt-1">
+                        Create your first category to get started
+                    </p>
+                </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {categories.map((category) => (
-                        <div
-                            key={category.id}
-                            className="flex items-center gap-3 p-4 bg-gray-50 hover:bg-white border border-gray-200 hover:shadow-md rounded-xl transition-all"
-                        >
-                            {/* Icon */}
-                            <div className="w-14 h-14 flex items-center justify-center bg-gray-200 rounded-full text-xl">
-                                {category.icon ? (
-                                    <img src={category.icon} className="h-7 w-7" />
-                                ) : (
-                                    <ListCollapse className="text-gray-600 w-6 h-6" />
-                                )}
+                <div className="max-h-[28rem] overflow-y-auto pr-1">
+
+                    {/* GRID */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {categories.map((category) => (
+                            <div
+                                key={category.id}
+                                className="
+                                    relative p-5 rounded-2xl overflow-hidden group
+                                    bg-white/70
+                                    backdrop-blur-xl
+                                    border border-neutral-200/60
+                                    shadow-[0_6px_18px_rgba(0,0,0,0.06)]
+                                    hover:shadow-[0_10px_28px_rgba(0,0,0,0.10)]
+                                    hover:-translate-y-1
+                                    transition-all duration-300
+                                "
+                            >
+                                {/* Decorative Glow */}
+                                <div className="
+                                    absolute inset-0 bg-gradient-to-br
+                                    from-blue-50/60 via-transparent to-transparent
+                                    opacity-0 group-hover:opacity-100
+                                    transition duration-300
+                                "></div>
+
+                                {/* CONTENT */}
+                                <div className="relative z-10 flex flex-col">
+
+                                    {/* Icon */}
+                                    <div
+                                        className="
+                                            w-14 h-14 rounded-2xl mb-4
+                                            flex items-center justify-center
+                                            bg-gradient-to-br from-blue-500 to-blue-400
+                                            shadow-[0_8px_20px_rgba(59,130,246,0.35)]
+                                            text-white
+                                            transform transition duration-300 group-hover:scale-110
+                                        "
+                                    >
+                                        {category.icon ? (
+                                            <img
+                                                src={category.icon}
+                                                alt={category.name}
+                                                className="w-7 h-7 object-contain"
+                                            />
+                                        ) : (
+                                            <ListCollapse className="w-7 h-7" />
+                                        )}
+                                    </div>
+
+                                    {/* Category Name */}
+                                    <p className="text-neutral-900 font-semibold text-base capitalize line-clamp-1">
+                                        {category.name}
+                                    </p>
+
+                                    {/* Type Badge */}
+                                    <span
+                                        className={`
+                                            mt-2 w-fit px-3 py-1 text-xs font-semibold rounded-full capitalize
+                                            ${
+                                            category.type === "income"
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-red-100 text-red-700"
+                                        }
+                                        `}
+                                    >
+                                        {category.type}
+                                    </span>
+
+                                    {/* EDIT BUTTON */}
+                                    <button
+                                        onClick={() => onEditCategory(category)}
+                                        className="
+                                            relative mt-5 w-full py-2.5 rounded-xl
+                                            font-medium text-sm
+                                            bg-gradient-to-r from-blue-600 to-blue-500
+                                            text-white
+                                            shadow-md hover:shadow-lg
+                                            active:scale-[0.97]
+                                            transition-all duration-300
+                                            overflow-hidden
+                                        "
+                                    >
+                                        <span className="relative z-10 flex items-center justify-center gap-2">
+                                            <Edit2 className="w-4 h-4" />
+                                            Edit Category
+                                        </span>
+
+                                        {/* Shine */}
+                                        <span
+                                            className="
+                                                absolute inset-0 bg-white/20
+                                                opacity-0 hover:opacity-30
+                                                transition duration-300
+                                            "
+                                        ></span>
+
+                                        {/* Ripple */}
+                                        <span
+                                            className="
+                                                absolute inset-0 rounded-xl
+                                                bg-white/20 scale-0 group-hover:scale-150
+                                                transition-transform duration-700
+                                            "
+                                        ></span>
+                                    </button>
+                                </div>
                             </div>
-
-                            {/* Category Info */}
-                            <div className="flex-1">
-                                <p className="font-semibold text-gray-800">{category.name}</p>
-
-                                <span
-                                    className={`inline-block mt-1 px-3 py-1 text-xs font-medium rounded-full ${
-                                        category.type === "income"
-                                            ? "bg-green-100 text-green-600"
-                                            : "bg-red-100 text-red-600"
-                                    }`}
-                                >
-                  {category.type.charAt(0).toUpperCase() +
-                      category.type.slice(1)}
-                </span>
-                            </div>
-
-                            {/* Buttons */}
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => onEditCategory(category)}
-                                    className="p-2 rounded-lg hover:bg-blue-100 text-blue-600 transition-all"
-                                >
-                                    <Edit2 className="w-4 h-4" />
-                                </button>
-
-                                <button
-                                    onClick={() => onDeleteCategory(category.id)}
-                                    className="p-2 rounded-lg hover:bg-red-100 text-red-600 transition-all"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             )}
         </div>

@@ -1,3 +1,4 @@
+// javascript
 import NavaBar from "./NavaBar.jsx";
 import { AppContext } from "../context/AppContext.jsx";
 import SideBar from "./SideBar.jsx";
@@ -10,20 +11,27 @@ const Dashboard = ({ children }) => {
         <>
             <NavaBar />
 
+            {/* GLOBAL MODAL PORTAL - allow clicks to pass through until modal sets pointer-events-auto */}
+            <div id="modal-root" className="fixed inset-0 z-[999999] pointer-events-none"></div>
+
             {user && (
-                <div className="flex">
-                    {/* Desktop Sidebar */}
+                <div className="flex h-[calc(100vh-80px)] relative z-0">
                     <div className="hidden lg:block">
                         <SideBar />
                     </div>
 
-                    {/* Content Area */}
                     <div
-                        className="grow p-6 min-h-[calc(100vh-80px)]
-            bg-gray-50/60 rounded-tl-3xl
-            overflow-y-auto animate-page"
+                        className="
+                            flex-1
+                            overflow-y-auto
+                            bg-gradient-to-br from-neutral-50 via-white to-neutral-50
+                            animate-slideUp
+                            relative z-0
+                        "
                     >
-                        {children}
+                        <div className="min-h-full">
+                            {children}
+                        </div>
                     </div>
                 </div>
             )}

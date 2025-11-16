@@ -1,9 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Input from "./Input.jsx";
 import EmojiPickerPop from "./EmojiPickerPop.jsx";
 import {LoaderCircle} from "lucide-react";
 
-const AddCategoryForm = ({onAddCategory})=>{
+const AddCategoryForm = ({onAddCategory,intialCategoryData,isEditing})=>{
 
     const [loading,setIsLoading] = useState(null)
     const [category,setCategory] = useState({
@@ -12,6 +12,14 @@ const AddCategoryForm = ({onAddCategory})=>{
         type:"",
         icon:""
     })
+
+    useEffect(()=>{
+        if(isEditing && intialCategoryData){
+            setCategory(intialCategoryData)
+        }else{
+            setCategory({name: "",type: " income",icon: ""})
+        }
+    },[isEditing,intialCategoryData])
 
     const categoryTypes = [
         {value : "income",label :"Income"},
@@ -32,15 +40,10 @@ const AddCategoryForm = ({onAddCategory})=>{
     }
 
     return(
-
-        <>
-
-
-        <div className="p-4">
+        <div className="space-y-6">
             <EmojiPickerPop icon={category.icon}
             onSelect={(selectIcon) => handleChange("icon" ,selectIcon) }
             />
-
 
             <Input
             value={category.name}
@@ -58,33 +61,28 @@ const AddCategoryForm = ({onAddCategory})=>{
                 options={categoryTypes}
             />
 
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-end pt-4">
                 <button
                     disabled={loading}
                     type="submit"
                     onClick={handleSubmit}
-                    className="add-btn gap-2 px-4 py-3
-            rounded-xl font-medium text-blue-700
-            bg-blue-50 hover:bg-blue-100
-            border border-blue-200 shadow-sm
-            hover:shadow-xl transition-all duration-200">
+                    className="btn-primary-soft flex items-center gap-2 px-5 py-2.5 font-semibold
+                    disabled:opacity-60 disabled:cursor-not-allowed active:scale-95">
                     {loading ? (
                         <>
-                        <LoaderCircle className="w-4 h4 animate-spin"/>
-                        Adding.....
+                        <LoaderCircle className="w-4 h-4 animate-spin"/>
+                            {isEditing ? "Updating.." : "Adding.."}
                         </>
 
                     ) : (
-
                         <>
-                        Add Category
+                            {isEditing ? "Update Category" : "Add Category"}
                         </>
                     )}
 
                 </button>
             </div>
         </div>
-        </>
     )
 }
 

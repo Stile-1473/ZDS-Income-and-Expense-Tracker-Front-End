@@ -9,78 +9,57 @@ const SideBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [collapsed, setCollapsed] = useState(false);
-    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
     const isActive = (path) => location.pathname === path;
 
     return (
         <div
-            className={`backdrop-blur-xl
-             bg-white/70 border border-gray-200
-      shadow-[0px_4px_25px_-6px_rgba(0,0,0,0.15)]
-      h-[calc(100vh-61px)] sticky top-[61px] z-20 flex flex-col justify-between
-      rounded-3xl mx-3 my-2 overflow-hidden
-      transition-all duration-500 ease-in-out
-      ${collapsed ? "w-20" : "w-64"}`}
+            className={`flex flex-col justify-between rounded-3xl overflow-hidden
+        bg-white/40 backdrop-blur-xl border border-gray-200 shadow-lg
+        h-[calc(100vh-61px)] sticky top-[61px]
+        transition-all duration-500 ease-in-out
+        ${collapsed ? "w-20" : "w-64"}`}
         >
-
-            {/* Toggle */}
+            {/* Toggle Button */}
             <div className="flex justify-end p-3">
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="p-2 rounded-xl bg-white/60 hover:bg-white/90 transition shadow-sm active:scale-95"
+                    className="p-2 rounded-lg bg-white/60 hover:bg-white/90 shadow-sm transition active:scale-95"
                 >
                     <Menu className="text-gray-600" size={20} />
                 </button>
             </div>
 
-            {/* Profile */}
-            {!collapsed && (
-                <div className="flex flex-col
-
-                items-center gap-3 mb-8 opacity-100 transition-opacity duration-500">
-                    <div className="bg-blue-100 p-3 rounded-full shadow-md">
-                        <User className="w-12 h-12 text-blue-700" />
-                    </div>
-                    <h5 className="text-gray-900 font-semibold tracking-wide">
-                        {user?.fullName || "Dashboard User"}
-                    </h5>
+            {/* Profile Section */}
+            <div className={`flex flex-col items-center gap-2 p-4 transition-opacity duration-300 ${collapsed ? "opacity-0 h-0" : "opacity-100"}`}>
+                <div className="bg-gradient-to-tr from-blue-100 to-blue-50 p-4 rounded-full shadow-inner">
+                    <User className="w-14 h-14 text-blue-700" />
                 </div>
-            )}
+                <h5 className="text-gray-900 font-semibold text-center">{user?.fullName || "Dashboard User"}</h5>
+                <p className="text-xs text-gray-500">Welcome back!</p>
+            </div>
 
             {/* Menu Items */}
-            <nav className="flex-1 space-y-2 px-3">
-                {side_Bar_Data.map((item, index) => (
+            <nav className="flex-1 flex flex-col gap-2 px-2 sm:px-3">
+                {side_Bar_Data.map((item, idx) => (
                     <button
-                        key={index}
+                        key={idx}
                         onClick={() => navigate(item.path)}
-                        className={`relative w-full
-                         
-                         flex items-center gap-4 px-4 py-3 rounded-xl font-medium
-              transition-all duration-200
-              ${isActive(item.path)
-                            ? "bg-blue-300 text-white shadow-lg"
-                            : "text-gray-600 hover:bg-blue-50"
-                        }
-              ${collapsed && "justify-center px-2"}
-            `}
+                        className={`relative flex items-center gap-4 px-4 py-3 rounded-xl font-medium text-gray-600
+              hover:bg-gradient-to-r hover:from-blue-100 hover:to-blue-50 hover:text-blue-700
+              transition-all duration-300 shadow-sm
+              ${isActive(item.path) ? "bg-blue-200 text-blue-800 shadow-lg" : ""}
+              ${collapsed ? "justify-center px-2" : ""}`}
                     >
                         <item.icon
                             size={20}
-                            className={`transition-transform duration-300
-                ${isActive(item.path)
-                                ? "animate-bounce-small text-white"
-                                : "text-blue-600"
-                            }`}
+                            className={`transition-transform duration-300 ${isActive(item.path) ? "animate-bounce text-blue-700" : "text-blue-600"}`}
                         />
-                        {!collapsed && (
-                            <span className="transition-opacity duration-500">{item.label}</span>
-                        )}
+                        {!collapsed && <span className="truncate">{item.label}</span>}
 
-                        {/* Tooltip */}
+                        {/* Tooltip on collapsed */}
                         {collapsed && (
-                            <span className="absolute left-20 top-1/2 -translate-y-1/2 opacity-0
-              group-hover:opacity-100 transition bg-gray-900 text-white px-2 py-1 text-xs rounded-md whitespace-nowrap">
+                            <span className="absolute left-20 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-2 py-1 text-xs rounded-md opacity-0 group-hover:opacity-100 whitespace-nowrap z-50">
                 {item.label}
               </span>
                         )}
@@ -88,21 +67,17 @@ const SideBar = () => {
                 ))}
             </nav>
 
-
-            {/* Logout */}
-            <div className="p-3">
+            {/* Logout Button */}
+            <div className="p-4">
                 <button
-                    onClick={() => setShowLogoutConfirm(true)}
-                    className={`flex items-center gap-4 w-full px-4 py-3 rounded-xl font-semibold
-          text-red-600 bg-red-50 mb-4 hover:bg-red-100 hover:shadow-lg transition
-          ${collapsed && "justify-center"}`}
+                    onClick={() => alert("Implement logout modal")}
+                    className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:shadow-md transition
+            ${collapsed ? "justify-center" : ""}`}
                 >
                     <LogOut size={20} />
                     {!collapsed && "Logout"}
                 </button>
             </div>
-
-
         </div>
     );
 };

@@ -9,62 +9,64 @@ const Filter = () => {
 
     return (
         <Dasboard activeMenu="Search">
-            <div
-                className="max-w-6xl mx-auto mt-6 animate-page
-        p-6 bg-white/50 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.05)]
-        backdrop-blur-xl border border-gray-100/60"
-            >
+            <div className="w-full h-full overflow-y-auto bg-gradient-to-br from-neutral-50 via-white to-neutral-50">
+                <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-6 sm:py-8">
+                    
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
+                        <div className="min-w-0">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-900 break-words">Search & Filter</h2>
+                            <p className="text-xs sm:text-sm text-neutral-500 mt-1">Find your transactions quickly</p>
+                        </div>
 
-                {/* Title & Filters Icon */}
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-semibold text-gray-800 border-l-4 border-purple-500 pl-3">
-                        Search & Filters
-                    </h2>
-
-                    <button
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl
-            text-purple-700 bg-purple-50 border border-purple-200
-            hover:bg-purple-100 hover:shadow-xl transition-all"
-                    >
-                        <FilterIcon size={18} />
-                        Filters
-                    </button>
-                </div>
-
-                {/* Search Bar */}
-                <div className="relative mb-8">
-                    <Search className="absolute left-4 top-3 text-gray-400" size={20} />
-                    <input
-                        type="text"
-                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-white
-            shadow-sm border border-gray-200 focus:ring-2
-            focus:ring-purple-400 focus:outline-none text-gray-700"
-                        placeholder="Search expenses, income, categories..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                    />
-                </div>
-
-                {/* Quick Filter Tags */}
-                <div className="flex flex-wrap gap-3 mb-8">
-                    {["All", "Expenses", "Income", "Categories"].map((tag, index) => (
-                        <button
-                            key={index}
-                            className="px-4 py-2 rounded-full text-sm font-medium
-              text-gray-600 bg-gray-100 border border-gray-200
-              hover:bg-purple-100 hover:text-purple-700
-              transition-all"
-                        >
-                            {tag}
+                        <button className="btn-primary-soft flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-5 py-2.5 font-semibold text-sm sm:text-base whitespace-nowrap flex-shrink-0 w-full sm:w-auto">
+                            <FilterIcon size={18} />
+                            Filters
                         </button>
-                    ))}
-                </div>
+                    </div>
 
-                {/* Results */}
-                <div className="text-center text-gray-500 py-12">
-                    Type to search your content 🔍
-                </div>
+                    {/* Search Card */}
+                    <div className="card-elevated p-4 sm:p-6 mb-6">
+                        <label className="block text-xs sm:text-sm font-semibold text-neutral-700 mb-3">Search Transactions</label>
+                        <div className="relative">
+                            <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4 sm:w-5 sm:h-5" />
+                            <input
+                                type="text"
+                                className="form-input pl-9 sm:pl-12 w-full text-sm sm:text-base"
+                                placeholder="Search by name, amount..."
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
+                    {/* Quick Filters */}
+                    <div className="mb-6">
+                        <h3 className="text-xs sm:text-sm font-semibold text-neutral-700 mb-3">Quick Filters</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {["All", "Expenses", "Income", "Categories"].map((tag, index) => (
+                                <button
+                                    key={index}
+                                    className="px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium
+                                    text-neutral-700 bg-neutral-100 hover:bg-neutral-200
+                                    border border-neutral-200 transition-all active:scale-95"
+                                >
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Results */}
+                    <div className="card-elevated p-8 sm:p-12 text-center">
+                        <div className="inline-flex p-3 rounded-full bg-purple-50 mb-4">
+                            <Search className="text-purple-600 w-8 h-8" />
+                        </div>
+                        <p className="text-neutral-500 font-medium text-sm sm:text-base">Start searching to find your transactions</p>
+                        <p className="text-neutral-400 text-xs sm:text-sm mt-1">Use the search bar or filters above to locate specific transactions</p>
+                    </div>
+
+                </div>
             </div>
         </Dasboard>
     );

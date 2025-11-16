@@ -1,46 +1,57 @@
+import ReactDOM from "react-dom";
 import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const Modal = ({ isOpen, onClose, children, title, subtitle, footer }) => {
+const Modal = ({ isOpen, onClose, title, children }) => {
     if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
-            {/* Overlay click */}
-            <div className="absolute inset-0" onClick={onClose}></div>
-
-            {/* Modal content */}
-            <div className="relative bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-200/50
-                      w-full max-w-3xl max-h-[90vh] overflow-y-auto animate-[fadeInScale_0.3s_ease] z-50">
-
-                {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-                    <div>
-                        <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
-                        {subtitle && <p className="text-gray-500 text-sm mt-1">{subtitle}</p>}
+    return ReactDOM.createPortal(
+        <AnimatePresence>
+            <motion.div
+                className="
+                    fixed inset-0
+                    bg-black/40 backdrop-blur-sm
+                    flex items-center justify-center
+                    z-[999999]
+                    pointer-events-auto
+                "
+                onClick={onClose}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            >
+                <motion.div
+                    className="
+                        w-[90%] max-w-lg
+                        bg-white/60 backdrop-blur-xl
+                        shadow-xl rounded-2xl border border-white/40
+                        p-6 relative
+                    "
+                    onClick={(e) => e.stopPropagation()}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-semibold text-gray-800">
+                            {title}
+                        </h2>
+                        <button
+                            className="p-2 rounded-full hover:bg-gray-200 transition"
+                            onClick={onClose}
+                        >
+                            <X className="w-5 h-5 text-gray-600" />
+                        </button>
                     </div>
-                    <button
-                        onClick={onClose}
-                        className="text-gray-500 hover:bg-red-500 hover:text-white w-9 h-9 rounded-lg flex items-center justify-center transition-all"
-                    >
-                        <X className="w-5 h-5" />
-                    </button>
-                </div>
 
-                {/* Body */}
-                <div className="px-6 py-5">
-                    {children}
-                </div>
-                {/*ghost*/}
-
-                {/* Optional Footer */}
-                {footer && (
-                    <div className="flex justify-end gap-3 px-6 py-4 border-t border-gray-200">
-                        {footer}
+                    <div className="max-h-[65vh] overflow-y-auto pr-1 custom-scroll">
+                        {children}
                     </div>
-                )}
-
-            </div>
-        </div>
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>,
+        document.getElementById("modal-root")
     );
 };
 
