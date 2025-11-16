@@ -4,7 +4,6 @@ import Expense from "./pages/Expense.jsx";
 import Income from "./pages/Income.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Category from "./pages/Category.jsx";
-import Filter from "./pages/Filter.jsx";
 import Home from "./pages/Home.jsx";
 import { Toaster } from "react-hot-toast";
 
@@ -15,7 +14,7 @@ const App = () => {
             <Toaster
 
                 containerStyle={{
-                    zIndex: 20000, // above modals
+                    zIndex: 30000, // above modals
                     pointerEvents: "none", // clicks pass through
                 }}
                 toastOptions={{
@@ -46,7 +45,7 @@ const App = () => {
                     <Route path="/income" element={<Income />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/category" element={<Category />} />
-                    <Route path="/filter" element={<Filter />} />
+
                 </Routes>
             </BrowserRouter>
         </>

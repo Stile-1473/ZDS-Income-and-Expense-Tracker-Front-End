@@ -8,9 +8,12 @@ export const API_ENDPOINTS = {
     CREATE_CATEGORY:"/categories/save",
     GET_ALL_INCOMES:"/income/all",
     ADD_INCOME:"/income",
+    GET_ALL_EXPENSE:"/expense",
+    ADD_EXPENSE:"/expense",
     DELETE_INCOME:(id) => `/income/${id}`,
+    DELETE_EXPENSE:(id) => `/expense/${id}`,
     CATEGORY_BY_TYPE:(type) => `/categories/${type}`,
-
+    SEARCH:"/search",
     UPDATE_CATEGORY:(categoryId) => `/categories/${categoryId}`,
 
     GET_ALL_CATEGORIES:"/categories/get"

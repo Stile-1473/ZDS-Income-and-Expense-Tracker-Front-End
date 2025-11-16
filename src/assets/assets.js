@@ -37,11 +37,6 @@ export const side_Bar_Data = [
         icon:ExpandIcon,
         path:"/expense"
     },
-    {
-        id:"05",
-        label:"Search",
-        icon:Search,
-        path:"/filter"
-    },
+
 
 ]

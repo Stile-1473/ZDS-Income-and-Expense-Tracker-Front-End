@@ -8,15 +8,17 @@ import toast from "react-hot-toast";
 import CategoryList from "../components/CategoryList.jsx";
 import Modal from "../components/Modal.jsx";
 import AddCategoryForm from "../components/AddCategoryForm.jsx";
-import DeleteAlert from "../components/DeleteAlert.jsx";
 
 const Category = () => {
     useUser();
 
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    // Modal states
     const [openAddCategoryModal, setOpenAddCategoryModal] = useState(false);
-    const [deleteCategory, setDeleteCategory] = useState({ show: false, data: null });
+    const [openEditCategoryModal, setOpenEditCategoryModal] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const fetchCategories = async () => {
         if (loading) return;
@@ -37,7 +39,7 @@ const Category = () => {
         if (!type) return toast.error("Type is required");
 
         try {
-            const response = await axiosConfig.post(API_ENDPOINTS.ADD_CATEGORY, { name, type, icon });
+            const response = await axiosConfig.post(API_ENDPOINTS.CREATE_CATEGORY, { name, type, icon });
             if (response.status === 201) {
                 toast.success("Category added successfully");
                 setOpenAddCategoryModal(false);
@@ -48,14 +50,20 @@ const Category = () => {
         }
     };
 
-    const deleteCategoryInfo = async (id) => {
+    const handleEditCategory = async (category) => {
+        const { id, name, type, icon } = category;
+        if (!name.trim()) return toast.error("Name is required");
+        if (!type) return toast.error("Type is required");
+
         try {
-            await axiosConfig.delete(API_ENDPOINTS.DELETE_CATEGORY(id));
-            toast.success("Deleted successfully");
-            setDeleteCategory({ show: false, data: null });
-            fetchCategories();
+            const response = await axiosConfig.put(API_ENDPOINTS.UPDATE_CATEGORY(id), { name, type, icon });
+            if (response.status === 200) {
+                toast.success("Category updated successfully");
+                setOpenEditCategoryModal(false);
+                fetchCategories();
+            }
         } catch (e) {
-            toast.error("Failed to delete, try again");
+            toast.error("Failed to update category");
         }
     };
 
@@ -89,7 +97,7 @@ const Category = () => {
 
                     {/* Summary Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                        {/* Total Income Categories */}
+                        {/* Income Categories */}
                         <div className="group relative card-elevated p-4 sm:p-6 overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div className="relative flex flex-col h-full">
@@ -104,7 +112,7 @@ const Category = () => {
                             </div>
                         </div>
 
-                        {/* Total Expense Categories */}
+                        {/* Expense Categories */}
                         <div className="group relative card-elevated p-4 sm:p-6 overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div className="relative flex flex-col h-full">
@@ -137,7 +145,13 @@ const Category = () => {
 
                     {/* Category List */}
                     <div className="card-elevated p-6 sm:p-8 rounded-2xl shadow-lg">
-                        <CategoryList categories={categories} onEditCategory={(category) => console.log("Edit", category)} />
+                        <CategoryList
+                            categories={categories}
+                            onEditCategory={(category) => {
+                                setSelectedCategory(category);
+                                setOpenEditCategoryModal(true);
+                            }}
+                        />
                     </div>
 
                     {/* Add Category Modal */}
@@ -149,15 +163,16 @@ const Category = () => {
                         <AddCategoryForm onAddCategory={handleAddCategory} />
                     </Modal>
 
-                    {/* Delete Category Modal */}
+                    {/* Edit Category Modal */}
                     <Modal
-                        isOpen={deleteCategory.show}
-                        onClose={() => setDeleteCategory({ show: false, data: null })}
-                        title="Are you sure you want to delete this category?"
+                        isOpen={openEditCategoryModal}
+                        onClose={() => setOpenEditCategoryModal(false)}
+                        title="Edit Category"
                     >
-                        <DeleteAlert
-                            content="Delete"
-                            onDelete={() => deleteCategoryInfo(deleteCategory.data)}
+                        <AddCategoryForm
+                            onAddCategory={handleEditCategory}
+                            intialCategoryData={selectedCategory}
+                            isEditing={true}
                         />
                     </Modal>
 

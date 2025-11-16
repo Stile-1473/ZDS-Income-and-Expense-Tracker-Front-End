@@ -71,7 +71,7 @@ const IncomeExpenseCard = ({
                 </div>
 
                 {/* Amount + Delete */}
-                <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                <div className="flex  items-end gap-2 flex-shrink-0">
                     <span
                         className={`
                             inline-flex items-center gap-1

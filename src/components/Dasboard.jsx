@@ -12,7 +12,7 @@ const Dashboard = ({ children }) => {
             <NavaBar />
 
             {/* GLOBAL MODAL PORTAL - allow clicks to pass through until modal sets pointer-events-auto */}
-            <div id="modal-root" className="fixed inset-0 z-[999999] pointer-events-none"></div>
+            <div id="modal-root" className="fixed inset-0 z-[9999] pointer-events-none"></div>
 
             {user && (
                 <div className="flex h-[calc(100vh-80px)] relative z-0">

@@ -2,7 +2,7 @@ import { Download, Mail } from "lucide-react";
 import IncomeExpenseCard from "./IncomeExpenseCard.jsx";
 
 
-const IncomeList = ({transactions, onDelete ,onDownload,onEmail}) => {
+const ExpenseList = ({transactions, onDelete ,onDownload,onEmail}) => {
     return(
         <div className="card-elevated p-4 sm:p-6 w-full animate-slideUp">
             {/* Header */}
@@ -45,7 +45,7 @@ const IncomeList = ({transactions, onDelete ,onDownload,onEmail}) => {
                             key={trans.id}
                             icon={trans.icon}
                             title={trans.name}
-                            type="income"
+                            type="expense"
                             date={new Date(trans.date).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
@@ -62,4 +62,4 @@ const IncomeList = ({transactions, onDelete ,onDownload,onEmail}) => {
 }
 
 
-export default IncomeList
+export default ExpenseList

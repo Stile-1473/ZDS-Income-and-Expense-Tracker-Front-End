@@ -1,6 +1,6 @@
 import Dasboard from "../components/Dasboard.jsx";
 import { useUser } from "../hooks/useUser.jsx";
-import { Plus, ArrowUpRight, ArrowDownLeft, Wallet, Coins } from "lucide-react";
+import {Plus, ArrowUpRight, ArrowDownLeft, Wallet, Coins, ArrowUp10Icon, ArrowUp, ArrowBigUp} from "lucide-react";
 import { useEffect, useState } from "react";
 import axiosConfig from "../utils/AxiosConfig.jsx";
 import { API_ENDPOINTS } from "../utils/apiEndpoints.js";
@@ -84,6 +84,17 @@ const Income = () => {
         }
     };
 
+
+    const handleDownloadIncomeDetails = ()=>{
+        console.log("Downloading income details")
+        toast.loading("Downloading feature coming soon")
+
+    }
+
+    const handleEmailIncomeDetails = () =>{
+        console.log("Sending income detailes to email")
+        toast.loading("Sending email feature coming soon")
+    }
     useEffect(() => {
         fetchIncomesData();
         fetchIncomeCategories();
@@ -126,8 +137,8 @@ const Income = () => {
                                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">
                                     ${incomeInfo.reduce((acc, i) => acc + i.amount, 0).toFixed(2)}
                                 </h3>
-                                <p className="text-xs text-green-600 mt-1 sm:mt-2 font-medium">
-                                    ↑ {incomeInfo.length} transactions
+                                <p className="text-xs flex gap-2 text-green-600 mt-1 sm:mt-2 font-medium">
+                                    <ArrowBigUp className={"text-green-300"}/> {incomeInfo.length} transactions
                                 </p>
                             </div>
                         </div>
@@ -165,17 +176,22 @@ const Income = () => {
                         </div>
                     </div>
 
+
+
+
                     {/* Income List */}
-                    <div className="card-elevated p-6 sm:p-8 rounded-2xl shadow-lg">
+
                         {incomeInfo.length === 0 ? (
                             <p className="text-center text-neutral-500 py-10">No income transactions yet.</p>
                         ) : (
                             <IncomeList
                                 onDelete={(id) => setDeleteIncome({ show: true, data: id })}
                                 transactions={incomeInfo}
+                                onDownload={handleDownloadIncomeDetails}
+                                onEmail={handleEmailIncomeDetails}
                             />
                         )}
-                    </div>
+
 
                     {/* Add Income Modal */}
                     <Modal
