@@ -96,10 +96,7 @@ const Expense = () => {
 
     }
 
-    const handleEmailIncomeDetails = () =>{
-        console.log("Sending expense detailes to email")
-        toast.loading("Sending email feature coming soon")
-    }
+
 
     const handledeleteExpense = async (id) => {
         try {
@@ -211,7 +208,7 @@ const Expense = () => {
                             onDelete={(id) => setDeleteExpense({ show: true, data: id })}
                         transactions={expenseInfo}
                             onDownload={handleDownloadIncomeDetails}
-                            onEmail={handleEmailIncomeDetails}
+
                         />
                     )}
 
@@ -230,10 +227,10 @@ const Expense = () => {
                     <Modal
                         isOpen={deleteExpense.show}
                         onClose={() => setDeleteExpense({ show: false, data: null })}
-                        title="Are you sure you want to delete this income?"
+                        title="Delete expense"
                     >
                         <DeleteAlert
-                            content="Delete"
+                            content="Are you sure you want to delete this expense?"
                             onDelete={() => handledeleteExpense(deleteExpense.data)}
                         />
                     </Modal>

@@ -4,17 +4,19 @@ const DeleteAlert = ({ onDelete, content }) => {
             <p className="text-neutral-700 text-sm mb-6 leading-relaxed">{content}</p>
 
             <div className="flex justify-end gap-3">
-                <button
-                    type="button"
-                    className="btn-ghost px-4 py-2.5"
-                >
-                    Cancel
-                </button>
+
 
                 <button
                     onClick={onDelete}
                     type="button"
-                    className="btn-danger px-4 py-2.5 flex items-center gap-2"
+                    className="w-full bg-red-400
+                    text-white
+                            rounded-lg
+                    border-red-200
+                    border
+                    text-2xl
+                     gap-2 px-5 py-2.5
+                    disabled:opacity-60 disabled:cursor-not-allowed active:scale-95"
                 >
                     Delete
                 </button>

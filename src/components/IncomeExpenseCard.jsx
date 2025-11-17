@@ -30,7 +30,6 @@ const IncomeExpenseCard = ({
                 animate-slideUp cursor-pointer
             "
         >
-            {/* Hover Gradient */}
             <div
                 className={`absolute inset-0 rounded-2xl 
                 bg-gradient-to-br ${
@@ -39,9 +38,7 @@ const IncomeExpenseCard = ({
                 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
             ></div>
 
-            {/* Content */}
             <div className="relative z-10 flex items-center gap-4">
-                {/* Icon */}
                 <div
                     className={`
                         flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14
@@ -70,7 +67,6 @@ const IncomeExpenseCard = ({
                     <p className="text-sm text-gray-500 mt-0.5">{date}</p>
                 </div>
 
-                {/* Amount + Delete */}
                 <div className="flex  items-end gap-2 flex-shrink-0">
                     <span
                         className={`
@@ -90,7 +86,6 @@ const IncomeExpenseCard = ({
                         {isIncome ? "+" : "-"} ${amount}
                     </span>
 
-                    {/* Delete Button */}
                     {!hideDeleteBtn && (
                         <button
                             onClick={onDelete}

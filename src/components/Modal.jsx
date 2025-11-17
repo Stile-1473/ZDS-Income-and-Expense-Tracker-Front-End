@@ -13,6 +13,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
                     bg-black/40 backdrop-blur-sm
                     flex items-center justify-center
                     z-[999999]
+
                     pointer-events-auto
                 "
                 onClick={onClose}
@@ -24,7 +25,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
                     className="
                         w-[90%] max-w-lg
                         bg-white/60 backdrop-blur-xl
-                        shadow-xl rounded-2xl border border-white/40
+                        shadow-xl rounded-2xl border h-fit border-white/40
                         p-6 relative
                     "
                     onClick={(e) => e.stopPropagation()}
@@ -34,20 +35,21 @@ const Modal = ({ isOpen, onClose, title, children }) => {
                     transition={{ duration: 0.2 }}
                 >
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-semibold text-gray-800">
+                        <h2 className="text-xl font-semibold text-blue-500">
                             {title}
                         </h2>
                         <button
-                            className="p-2 rounded-full hover:bg-gray-200 transition"
+                            className="p-2 rounded-full hover:bg-red-200 transition"
                             onClick={onClose}
                         >
-                            <X className="w-5 h-5 text-gray-600" />
+                            <X className="w-5 h-5  text-gray-600" />
                         </button>
                     </div>
 
-                    <div className="max-h-[65vh] overflow-y-auto pr-1 custom-scroll">
+                    <div className="max-h-[70vh] overflow-y-auto pr-1 custom-scroll">
                         {children}
                     </div>
+
                 </motion.div>
             </motion.div>
         </AnimatePresence>,

@@ -13,7 +13,6 @@ export const API_ENDPOINTS = {
     DELETE_INCOME:(id) => `/income/${id}`,
     DELETE_EXPENSE:(id) => `/expense/${id}`,
     CATEGORY_BY_TYPE:(type) => `/categories/${type}`,
-    SEARCH:"/search",
     UPDATE_CATEGORY:(categoryId) => `/categories/${categoryId}`,
 
     GET_ALL_CATEGORIES:"/categories/get"

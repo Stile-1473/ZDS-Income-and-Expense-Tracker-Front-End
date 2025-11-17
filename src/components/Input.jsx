@@ -29,12 +29,11 @@ const Input = ({
                     className="mb-2 text-xs sm:text-sm font-semibold text-neutral-700 block"
                 >
                     {label}
-                    {required && <span className="text-red-500 ml-1">*</span>}
+                    {required && <span className="text-red-500 ml-1"></span>}
                 </label>
             )}
 
             <div className="relative">
-                {/* Left Icon */}
                 {iconMap[label?.toLowerCase()] && (
                     <span className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 pointer-events-none flex-shrink-0">
                         {iconMap[label.toLowerCase()]}
@@ -78,7 +77,6 @@ const Input = ({
                     />
                 )}
 
-                {/* Password Toggle */}
                 {isPassword && (
                     <button
                         type="button"
@@ -95,7 +93,6 @@ const Input = ({
                 )}
             </div>
 
-            {/* Error Message */}
             {error && (
                 <p className="text-red-500 text-xs sm:text-sm mt-1.5 sm:mt-2 font-medium flex items-center gap-1">
                     <span className="text-xs">⚠</span>

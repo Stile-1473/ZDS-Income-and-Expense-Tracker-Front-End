@@ -91,10 +91,7 @@ const Income = () => {
 
     }
 
-    const handleEmailIncomeDetails = () =>{
-        console.log("Sending income detailes to email")
-        toast.loading("Sending email feature coming soon")
-    }
+
     useEffect(() => {
         fetchIncomesData();
         fetchIncomeCategories();
@@ -188,7 +185,7 @@ const Income = () => {
                                 onDelete={(id) => setDeleteIncome({ show: true, data: id })}
                                 transactions={incomeInfo}
                                 onDownload={handleDownloadIncomeDetails}
-                                onEmail={handleEmailIncomeDetails}
+
                             />
                         )}
 
@@ -206,10 +203,10 @@ const Income = () => {
                     <Modal
                         isOpen={deleteIncome.show}
                         onClose={() => setDeleteIncome({ show: false, data: null })}
-                        title="Are you sure you want to delete this income?"
+                        title="Delete Income"
                     >
                         <DeleteAlert
-                            content="Delete"
+                            content="Are you sure you want to delete this income?"
                             onDelete={() => deleteIncomeInfo(deleteIncome.data)}
                         />
                     </Modal>

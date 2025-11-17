@@ -67,36 +67,7 @@ const NavaBar = () => {
 
                 {/* RIGHT AREA */}
                 <div className="flex items-center gap-4">
-                    {/* Search Bar */}
-                    <div
-                        className="
-                        hidden md:flex items-center gap-2
-                        px-3 py-2
-                        bg-white/60 backdrop-blur-md
-                        border border-gray-200/60
-                        rounded-2xl shadow-sm transition
-                        focus-within:shadow-md
-                    "
-                    >
-                        <Search size={18} className="text-gray-500" />
-                        <input
-                            type="text"
-                            className="bg-transparent outline-none text-sm text-gray-700 placeholder-gray-500 w-40"
-                            placeholder="Search anything..."
-                        />
-                    </div>
 
-                    {/* Notification Button */}
-                    <button
-                        className="
-                        relative p-2 rounded-full
-                        bg-white/60 hover:bg-white/90
-                        shadow-sm transition
-                    "
-                    >
-                        <Bell size={20} className="text-gray-600" />
-                        <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-                    </button>
 
                     {/* Profile */}
                     <div className="relative" ref={dropdownRef}>

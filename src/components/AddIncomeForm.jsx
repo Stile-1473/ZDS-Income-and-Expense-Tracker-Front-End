@@ -22,14 +22,13 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
     };
 
     return (
-        <div className="space-y-6 p-4 sm:p-6 bg-white/60 backdrop-blur-xl rounded-2xl border border-white/30 shadow-lg">
-            {/* Emoji Picker */}
+        <div className="space-y-6 p-4 sm:p-6 h-fit bg-white
+         backdrop-blur-xl rounded-2xl border border-white/30 shadow-lg">
             <EmojiPickerPop
                 icon={income.icon}
                 onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
             />
 
-            {/* Category Select */}
             <Input
                 label="Category"
                 value={income.categoryId}
@@ -38,7 +37,6 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
                 options={categorySelections}
             />
 
-            {/* Income Source */}
             <Input
                 value={income.name}
                 onChange={(value) => handleChange("name", value)}
@@ -47,7 +45,6 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
                 type="text"
             />
 
-            {/* Amount */}
             <Input
                 value={income.amount}
                 onChange={(value) => handleChange("amount", value)}
@@ -56,7 +53,6 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
                 type="number"
             />
 
-            {/* Date */}
             <Input
                 value={income.date}
                 onChange={(value) => handleChange("date", value)}
@@ -64,12 +60,11 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
                 type="date"
             />
 
-            {/* Add Income Button */}
             <div className="flex items-center justify-end pt-4">
                 <button
                     onClick={() => onAddIncome(income)}
-                    className="
-                        flex items-center gap-2 px-5 py-2.5
+                    className=" w-full
+                        flex items-center justify-center  gap-2 px-5 py-2.5
                         rounded-xl font-semibold
                         bg-gradient-to-r from-green-500 to-green-400
                         text-white shadow-md hover:shadow-lg

@@ -40,7 +40,7 @@ const AddCategoryForm = ({onAddCategory,intialCategoryData,isEditing})=>{
     }
 
     return(
-        <div className="space-y-6">
+        <div className="space-y-6 bg-white p-3 h-fit rounded-md shadow-2xl">
             <EmojiPickerPop icon={category.icon}
             onSelect={(selectIcon) => handleChange("icon" ,selectIcon) }
             />
@@ -66,7 +66,13 @@ const AddCategoryForm = ({onAddCategory,intialCategoryData,isEditing})=>{
                     disabled={loading}
                     type="submit"
                     onClick={handleSubmit}
-                    className="btn-primary-soft flex items-center gap-2 px-5 py-2.5 font-semibold
+                    className="w-full bg-blue-300
+                    text-white
+                            rounded-lg
+                    border-gray-200
+                    border
+                    text-2xl
+                     gap-2 px-5 py-2.5
                     disabled:opacity-60 disabled:cursor-not-allowed active:scale-95">
                     {loading ? (
                         <>

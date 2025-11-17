@@ -144,7 +144,7 @@ const Category = () => {
                     </div>
 
                     {/* Category List */}
-                    <div className="card-elevated p-6 sm:p-8 rounded-2xl shadow-lg">
+                    <div className="">
                         <CategoryList
                             categories={categories}
                             onEditCategory={(category) => {
@@ -158,7 +158,7 @@ const Category = () => {
                     <Modal
                         isOpen={openAddCategoryModal}
                         onClose={() => setOpenAddCategoryModal(false)}
-                        title="Add New Category"
+                        title="Create A New Category "
                     >
                         <AddCategoryForm onAddCategory={handleAddCategory} />
                     </Modal>

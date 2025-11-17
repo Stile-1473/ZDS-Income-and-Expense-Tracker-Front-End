@@ -1,9 +1,156 @@
 import Dasboard from "../components/Dasboard.jsx";
 import { useUser } from "../hooks/useUser.jsx";
-import { TrendingUp, TrendingDown, Wallet, BarChart3, ArrowUpRight, ArrowDownLeft } from "lucide-react";
+import { TrendingUp, TrendingDown, Wallet, BarChart3, ArrowUpRight, ArrowDownLeft, PieChart, Calendar } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext.jsx";
+import AxiosConfig from "../utils/AxiosConfig.jsx";
+import { API_ENDPOINTS, BASE_URL } from "../utils/apiEndpoints.js";
+import { BarChart, Bar, PieChart as RechartsPie, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import toast from "react-hot-toast";
 
 const Home = () => {
     useUser();
+    const { user } = useContext(AppContext);
+    
+    const [stats, setStats] = useState({
+        totalIncome: 0,
+        totalExpense: 0,
+        balance: 0,
+        categoryCount: 0
+    });
+    
+    const [chartData, setChartData] = useState({
+        monthlyData: [],
+        categoryBreakdown: [],
+        incomeExpenseComparison: []
+    });
+    
+    const [loading, setLoading] = useState(true);
+
+    const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#6366f1'];
+
+    useEffect(() => {
+        fetchDashboardData();
+    }, [user]);
+
+    const fetchDashboardData = async () => {
+        try {
+            setLoading(true);
+            
+            // Fetch all data in parallel
+            const [incomeRes, expenseRes, categoriesRes] = await Promise.all([
+                AxiosConfig.get(API_ENDPOINTS.GET_ALL_INCOMES),
+                AxiosConfig.get(API_ENDPOINTS.GET_ALL_EXPENSE),
+                AxiosConfig.get(API_ENDPOINTS.GET_ALL_CATEGORIES)
+            ]);
+
+            const incomes = incomeRes.data || [];
+            const expenses = expenseRes.data || [];
+            const categories = categoriesRes.data || [];
+
+            // Debug: log raw responses to help troubleshooting
+            console.log('Dashboard fetched:', {
+                incomesSample: incomes.slice(0,3),
+                expensesSample: expenses.slice(0,3),
+                categoriesSample: categories.slice(0,6),
+            });
+
+            // Calculate stats
+            const totalIncome = incomes.reduce((sum, item) => sum + (item.amount || 0), 0);
+            const totalExpense = expenses.reduce((sum, item) => sum + (item.amount || 0), 0);
+            const balance = totalIncome - totalExpense;
+
+            setStats({
+                totalIncome,
+                totalExpense,
+                balance,
+                categoryCount: categories.length
+            });
+
+            // Process chart data
+            processChartData(incomes, expenses, categories);
+            
+        } catch (error) {
+            console.error("Error fetching dashboard data:", error);
+            toast.error("Failed to load dashboard data");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const processChartData = (incomes, expenses, categories) => {
+        // Monthly comparison data (last 6 months)
+        const monthlyData = generateMonthlyData(incomes, expenses);
+        
+        // Category breakdown for expenses
+        const categoryBreakdown = generateCategoryBreakdown(expenses, categories);
+        
+        // Income vs Expense comparison
+        const incomeExpenseComparison = [
+            { name: 'Income', value: incomes.reduce((sum, item) => sum + (item.amount || 0), 0), fill: '#10b981' },
+            { name: 'Expense', value: expenses.reduce((sum, item) => sum + (item.amount || 0), 0), fill: '#ef4444' }
+        ];
+
+        setChartData({
+            monthlyData,
+            categoryBreakdown,
+            incomeExpenseComparison
+        });
+    };
+
+    const generateMonthlyData = (incomes, expenses) => {
+        const data = {};
+        
+        // Generate last month
+        for (let i = 1; i >= 0; i--) {
+            const date = new Date();
+            date.setMonth(date.getMonth() - i);
+            const monthKey = date.toLocaleString('default', { month: 'short' });
+            data[monthKey] = { month: monthKey, income: 0, expense: 0 };
+        }
+
+        incomes.forEach(item => {
+            const date = new Date(item.date);
+            const monthKey = date.toLocaleString('default', { month: 'short' });
+            if (data[monthKey]) data[monthKey].income += item.amount || 0;
+        });
+
+        expenses.forEach(item => {
+            const date = new Date(item.date);
+            const monthKey = date.toLocaleString('default', { month: 'short' });
+            if (data[monthKey]) data[monthKey].expense += item.amount || 0;
+        });
+
+        return Object.values(data);
+    };
+
+    const generateCategoryBreakdown = (expenses, categories) => {
+        const breakdown = {};
+        
+        expenses.forEach(expense => {
+            const categoryId = expense.categoryId;
+            const category = categories.find(c => c.id === categoryId);
+            const categoryName = category?.name || 'Uncategorized';
+            
+            if (!breakdown[categoryName]) {
+                breakdown[categoryName] = 0;
+            }
+            breakdown[categoryName] += expense.amount || 0;
+        });
+
+        return Object.entries(breakdown).map(([name, value]) => ({
+            name,
+            value: parseFloat(value.toFixed(2))
+        })).sort((a, b) => b.value - a.value);
+    };
+
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        }).format(value);
+    };
 
     return (
         <Dasboard activeMenu="Dashboard">
@@ -28,8 +175,8 @@ const Home = () => {
                                         <Wallet className="text-blue-600 w-4 h-4 sm:w-5 sm:h-5" />
                                     </div>
                                 </div>
-                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">$0.00</h3>
-                                <p className="text-xs text-neutral-500 mt-1 sm:mt-2">Updated today</p>
+                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">{formatCurrency(stats.balance)}</h3>
+                                <p className="text-xs text-neutral-500 mt-1 sm:mt-2">Net balance</p>
                             </div>
                         </div>
 
@@ -43,8 +190,8 @@ const Home = () => {
                                         <ArrowUpRight className="text-green-600 w-4 h-4 sm:w-5 sm:h-5" />
                                     </div>
                                 </div>
-                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">$0.00</h3>
-                                <p className="text-xs text-green-600 mt-1 sm:mt-2 font-medium">↑ 0% from last month</p>
+                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">{formatCurrency(stats.totalIncome)}</h3>
+                                <p className="text-xs text-green-600 mt-1 sm:mt-2 font-medium">This month</p>
                             </div>
                         </div>
 
@@ -58,8 +205,8 @@ const Home = () => {
                                         <ArrowDownLeft className="text-red-600 w-4 h-4 sm:w-5 sm:h-5" />
                                     </div>
                                 </div>
-                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">$0.00</h3>
-                                <p className="text-xs text-red-600 mt-1 sm:mt-2 font-medium">↓ 0% from last month</p>
+                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">{formatCurrency(stats.totalExpense)}</h3>
+                                <p className="text-xs text-red-600 mt-1 sm:mt-2 font-medium">This month</p>
                             </div>
                         </div>
 
@@ -73,22 +220,51 @@ const Home = () => {
                                         <BarChart3 className="text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
                                     </div>
                                 </div>
-                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">0</h3>
-                                <p className="text-xs text-neutral-500 mt-1 sm:mt-2">All categories</p>
+                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mt-auto">{stats.categoryCount}</h3>
+                                <p className="text-xs text-neutral-500 mt-1 sm:mt-2">Active categories</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Chart Section */}
-                    <div className="card-elevated p-6 sm:p-8 min-h-64 sm:min-h-80 flex flex-col items-center justify-center">
-                        <div className="text-center">
-                            <div className="inline-flex p-3 rounded-full bg-blue-50 mb-4">
-                                <BarChart3 className="text-blue-600 w-8 h-8" />
+                    {/* Charts Grid */}
+                    {!loading && (
+                        <div className="mb-6">
+                            
+                            {/* Monthly Trend Chart */}
+                            <div className="card-elevated p-6 rounded-2xl">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-semibold text-neutral-900">Monthly Trend</h3>
+                                    <Calendar className="w-5 h-5 text-blue-600" />
+                                </div>
+                                {chartData.monthlyData.length > 0 ? (
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        <LineChart data={chartData.monthlyData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                                            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                            <XAxis dataKey="month" stroke="#6b7280" style={{ fontSize: '12px' }} />
+                                            <YAxis stroke="#6b7280" style={{ fontSize: '12px' }} />
+                                            <Tooltip 
+                                                contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '8px' }}
+                                                formatter={(value) => formatCurrency(value)}
+                                            />
+                                            <Legend />
+                                            <Line type="monotone" dataKey="income" stroke="#10b981" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                                            <Line type="monotone" dataKey="expense" stroke="#ef4444" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                ) : (
+                                    <div className="h-64 flex items-center justify-center text-neutral-500">
+                                        <p>No data available yet</p>
+                                    </div>
+                                )}
                             </div>
-                            <h4 className="text-base sm:text-lg font-semibold text-neutral-900 mb-2">Analytics Coming Soon</h4>
-                            <p className="text-xs sm:text-sm text-neutral-500">Your financial charts and insights will appear here</p>
+
+
+
+
                         </div>
-                    </div>
+                    )}
+
+
 
                 </div>
             </div>

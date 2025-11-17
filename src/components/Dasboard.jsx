@@ -11,7 +11,7 @@ const Dashboard = ({ children }) => {
         <>
             <NavaBar />
 
-            {/* GLOBAL MODAL PORTAL - allow clicks to pass through until modal sets pointer-events-auto */}
+            {/* GLOBAL MODAL PORTAL allow clicks to pass through until modal sets pointer-events-auto */}
             <div id="modal-root" className="fixed inset-0 z-[9999] pointer-events-none"></div>
 
             {user && (

@@ -2,10 +2,9 @@ import { Download, Mail } from "lucide-react";
 import IncomeExpenseCard from "./IncomeExpenseCard.jsx";
 
 
-const IncomeList = ({transactions, onDelete ,onDownload,onEmail}) => {
+const IncomeList = ({transactions, onDelete ,onDownload}) => {
     return(
         <div className="card-elevated p-4 sm:p-6 w-full animate-slideUp">
-            {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-6">
                 <div className="min-w-0">
                     <h5 className="text-base sm:text-lg font-semibold text-neutral-900">All Transactions</h5>
@@ -13,23 +12,16 @@ const IncomeList = ({transactions, onDelete ,onDownload,onEmail}) => {
                 </div>
 
                 <div className="flex items-center justify-start sm:justify-end gap-2 w-full sm:w-auto flex-wrap">
-                    <button
-                        onClick={onEmail}
-                        className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-all active:scale-95 flex-1 sm:flex-none">
-                        <Mail size={16} />
-                        Email
-                    </button>
 
                     <button
                         onClick={onDownload}
-                        className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-all active:scale-95 flex-1 sm:flex-none">
+                        className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium bg-purple-700 hover:bg-neutral-200 text-white transition-all active:scale-95 flex-1 sm:flex-none">
                         <Download size={16} />
                         Download
                     </button>
                 </div>
             </div>
 
-            {/* Transactions List */}
             {transactions.length === 0 ? (
                 <div className="text-center py-8 sm:py-12">
                     <div className="inline-flex p-3 rounded-full bg-neutral-100 mb-3">

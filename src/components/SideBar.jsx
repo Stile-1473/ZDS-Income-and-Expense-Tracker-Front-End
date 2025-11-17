@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import {useContext, useRef, useState} from "react";
 import { AppContext } from "../context/AppContext.jsx";
 import { LogOut, User, Menu } from "lucide-react";
 import { side_Bar_Data } from "../assets/assets.js";
@@ -12,12 +12,25 @@ const SideBar = () => {
 
     const isActive = (path) => location.pathname === path;
 
+    const [showDropDown, setShowDropDown] = useState(false);
+
+    const dropdownRef = useRef();
+
+    const {  clearUserInfo } = useContext(AppContext);
+
+    const handleLogout = () => {
+        setShowDropDown(false);
+        clearUserInfo();
+        navigate("/login");
+    };
+
     return (
         <div
-            className={`flex flex-col justify-between rounded-3xl overflow-hidden
-        bg-white/40 backdrop-blur-xl border border-gray-200 shadow-lg
+            className={`flex flex-col
+             justify-between rounded-3xl overflow-hidden mb-4
+        bg-white backdrop-blur-xl border border-gray-200 shadow-lg
         h-[calc(100vh-61px)] sticky top-[61px]
-        transition-all duration-500 ease-in-out
+        animate-pulse transition-all ease-in-out duration-150
         ${collapsed ? "w-20" : "w-64"}`}
         >
             {/* Toggle Button */}
@@ -70,8 +83,9 @@ const SideBar = () => {
             {/* Logout Button */}
             <div className="p-4">
                 <button
-                    onClick={() => alert("Implement logout modal")}
-                    className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 hover:shadow-md transition
+                    onClick={ handleLogout}
+                    className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl
+                     text-red-600 bg-red-50 hover:bg-red-100 hover:shadow-md transition
             ${collapsed ? "justify-center" : ""}`}
                 >
                     <LogOut size={20} />
