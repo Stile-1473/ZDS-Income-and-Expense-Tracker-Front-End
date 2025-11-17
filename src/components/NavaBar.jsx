@@ -60,9 +60,9 @@ const NavaBar = () => {
                         {sideBarOpen ? <X /> : <Menu />}
                     </button>
 
-                    <h1 className="text-xl font-semibold tracking-wide text-gray-800">
+                    <h5 className="text-xl font-semibold tracking-wide text-gray-800">
                         ZDS Billing App
-                    </h1>
+                    </h5>
                 </div>
 
                 {/* RIGHT AREA */}
