@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       '/api': {
        // target: 'https://zds-eldz.onrender.com',
-     target: 'http://84.247.140.201:8080/', //changing when pushing to git hub
+     target: 'http://zds.zw.com:8080/', //changing when pushing to git hub
 
         changeOrigin: true,
         secure: true
