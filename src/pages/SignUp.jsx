@@ -22,14 +22,11 @@ const Signup = () => {
 
         if (!fullname) tempErrors.fullname = "Full name is required";
         if (!email) tempErrors.email = "Email is required";
-        else if (!validateEmail(email)) {
-            tempErrors.email = "Email is not valid";
-        }
+        else if (!validateEmail(email)) tempErrors.email = "Email is not valid";
         if (!password) tempErrors.password = "Password is required";
-        else if (!validatePassword(password)) {
+        else if (!validatePassword(password))
             tempErrors.password =
                 "Password must be at least 8 characters, include an uppercase letter and a number";
-        }
 
         if (Object.keys(tempErrors).length > 0) {
             setErrors(tempErrors);
@@ -63,8 +60,7 @@ const Signup = () => {
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-200">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md p-8 rounded-3xl shadow-xl backdrop-blur-xl
-        bg-white/60 border border-white/50 animate-fadeSlide"
+                className="w-full max-w-md p-8 rounded-3xl shadow-xl backdrop-blur-xl bg-white/60 border border-white/50 animate-fadeSlide"
             >
                 <h2 className="text-3xl font-semibold text-gray-800 text-center mb-2">
                     Create an Account ✨
@@ -77,7 +73,7 @@ const Signup = () => {
                     <Input
                         label="Full Name"
                         value={fullname}
-                        onChange={(e) => {
+                        onChange={(value) => {
                             setFullName(value);
                             if (errors.fullname) setErrors({ ...errors, fullname: "" });
                         }}
@@ -89,7 +85,7 @@ const Signup = () => {
                         label="Email"
                         type="email"
                         value={email}
-                        onChange={(e) => {
+                        onChange={(value) => {
                             setEmail(value);
                             if (errors.email) setErrors({ ...errors, email: "" });
                         }}
@@ -101,7 +97,7 @@ const Signup = () => {
                         label="Password"
                         type="password"
                         value={password}
-                        onChange={(e) => {
+                        onChange={(value) => {
                             setPassword(value);
                             if (errors.password) setErrors({ ...errors, password: "" });
                         }}
@@ -113,10 +109,7 @@ const Signup = () => {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full mt-6 py-3 rounded-xl bg-gray-900
-          hover:bg-gray-800 text-white font-medium shadow-md
-          disabled:opacity-50 disabled:cursor-not-allowed
-          transition-all hover:shadow-xl hover:scale-[1.02]"
+                    className="w-full mt-6 py-3 rounded-xl bg-gray-900 hover:bg-gray-800 text-white font-medium shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-xl hover:scale-[1.02]"
                 >
                     {isLoading ? "Signing Up..." : "Sign Up"}
                 </button>
@@ -127,8 +120,8 @@ const Signup = () => {
                         className="text-blue-600 hover:underline cursor-pointer"
                         onClick={() => navigate("/login")}
                     >
-            Login
-          </span>
+                        Login
+                    </span>
                 </p>
             </form>
         </div>
