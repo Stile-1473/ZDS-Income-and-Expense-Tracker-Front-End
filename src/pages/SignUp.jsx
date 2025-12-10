@@ -78,7 +78,7 @@ const Signup = () => {
                         label="Full Name"
                         value={fullname}
                         onChange={(e) => {
-                            setFullName(e.target.value);
+                            setFullName(value);
                             if (errors.fullname) setErrors({ ...errors, fullname: "" });
                         }}
                         placeholder="John Doe"
@@ -90,7 +90,7 @@ const Signup = () => {
                         type="email"
                         value={email}
                         onChange={(e) => {
-                            setEmail(e.target.value);
+                            setEmail(value);
                             if (errors.email) setErrors({ ...errors, email: "" });
                         }}
                         placeholder="you@example.com"
@@ -102,7 +102,7 @@ const Signup = () => {
                         type="password"
                         value={password}
                         onChange={(e) => {
-                            setPassword(e.target.value);
+                            setPassword(value);
                             if (errors.password) setErrors({ ...errors, password: "" });
                         }}
                         placeholder="Enter your password"
