@@ -48,7 +48,7 @@ const Home = () => {
             const expenses = expenseRes.data || [];
             const categories = categoriesRes.data || [];
 
-            // Debug: log raw responses to help troubleshooting
+            
             console.log('Dashboard fetched:', {
                 incomesSample: incomes.slice(0,3),
                 expensesSample: expenses.slice(0,3),
@@ -71,8 +71,8 @@ const Home = () => {
             processChartData(incomes, expenses, categories);
             
         } catch (error) {
-            console.error("Error fetching dashboard data:", error);
-            toast.error("Failed to load dashboard data");
+            console.error("Error fetching dashboard data after retries:", error);
+            toast.error("Failed to load dashboard data. Please check your connection and try again.");
         } finally {
             setLoading(false);
         }

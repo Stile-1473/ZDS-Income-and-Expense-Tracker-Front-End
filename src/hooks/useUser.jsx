@@ -25,7 +25,7 @@ export const useUser = () =>{
                     setUser(response.data)
                 }
             }catch (e) {
-                console.log("Failed to fetch user data : => ",e)
+                console.log("Failed to fetch user data after retries : => ",e)
                 if(isMounted){
                     clearUserInfo();
                     navigation("/login")
