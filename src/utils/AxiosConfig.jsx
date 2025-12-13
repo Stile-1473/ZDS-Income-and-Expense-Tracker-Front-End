@@ -50,11 +50,11 @@ AxiosConfig.interceptors.response.use((response) => {
     if (error.response && error.response.status === 401) {
         window.location.href = "/login";
     }else if (error.response && error.response.status === 500) {
-        console.error("Server Error....Please Try Again Later");
+        console.error("Server Error after retries....Please Try Again Later");
     }else if(error.code === "ECONNABORTED" || error.code === "ECONNRESET" || error.message.includes("timeout")) {
-        console.error("Request timeout... Please try again later");
+        console.error("Request timeout after retries... Please try again later");
     }else if (!error.response) {
-        console.error("Network error... Please check your connection");
+        console.error("Network error after retries... Please check your connection");
     }
 
     return Promise.reject(error);
